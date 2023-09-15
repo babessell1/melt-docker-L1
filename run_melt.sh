@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 extract_subject_name() {
     # get sample name from cram/bam filename
     local string=$1
