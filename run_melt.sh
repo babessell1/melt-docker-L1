@@ -31,6 +31,10 @@ process_file() {
 
     # LINEs
     java -jar "${melt}/MELT.jar" Single -bamfile "$cram" -w output -t "${melt}/me_refs/Hg38/LINE1_MELT.zip" -h "$fasta" -n "${melt}/add_bed_files/Hg38/Hg38.genes.bed" -c 25 -mcmq 95 #-bowtie bowtie2 -samtools samtools
+
+    # print directory with botwtie2 index
+    echo "CRAM DIRECTORY"
+    echo "$(ls $(dirname "$cram"))"
 }
 
 # command-line (cwl file) arguments
@@ -40,10 +44,20 @@ fasta="$3"
 fastaidx="$4"
 melt="$5"
 
+# move fasta index to same folder as fasta
 ro_fa_dir=$(dirname "$fasta")
 ro_faidx_dir=$(dirname "$fastaidx")
 bname_fa=$(basename "$fasta" .fa)
 cp "${ro_faidx_dir}/${bname_fa}.fa.fai" "${ro_fa_dir}/${bname_fa}.fa.fai"
+# make fasta directory writable
+chmod a+w "${ro_fa_dir}"
+
+# make cram directory writable
+ro_cram_dir=$(dirname "$cram1")
+chmod a+w "${ro_cram_dir}"
+ro+cram_dir=$(dirname "$cram2")
+chmod a+w "${ro_cram_dir}"
+
 
 echo "preuntar"
 echo "$(ls)"
